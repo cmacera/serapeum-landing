@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  --font-space: "Space Grotesk", sans-serif;
+  --color-accent: #930df2;
+  --color-accent-light: #b060ff;
+  --color-cyan: #60c8ff;
+  --color-surface: #1e1e1e;
+  --color-surface2: #141414;
+  --color-text: #ffffff;
+  --color-text-muted: #bdbdbd;
+  --color-badge-media: #1e88e5;
+  --color-badge-book: #00897b;
+  --color-badge-game: #ffb300;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: #0d0d0d;
+  color: #ffffff;
+  font-family: "Space Grotesk", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Oracle bar color cycle */
+@keyframes oracle-color-cycle {
+  0%   { --bar-color: #930df2; box-shadow: 0 0 20px 4px rgba(147,13,242,0.6), 0 0 6px 2px rgba(147,13,242,0.9); }
+  25%  { --bar-color: #1e88e5; box-shadow: 0 0 20px 4px rgba(30,136,229,0.6), 0 0 6px 2px rgba(30,136,229,0.9); }
+  50%  { --bar-color: #00897b; box-shadow: 0 0 20px 4px rgba(0,137,123,0.6), 0 0 6px 2px rgba(0,137,123,0.9); }
+  75%  { --bar-color: #ffb300; box-shadow: 0 0 20px 4px rgba(255,179,0,0.6), 0 0 6px 2px rgba(255,179,0,0.9); }
+  100% { --bar-color: #930df2; box-shadow: 0 0 20px 4px rgba(147,13,242,0.6), 0 0 6px 2px rgba(147,13,242,0.9); }
+}
+
+@keyframes oracle-idle-pulse {
+  0%, 100% { box-shadow: 0 0 16px 3px rgba(255,255,255,0.3), 0 0 4px 1px rgba(255,255,255,0.6); }
+  50%       { box-shadow: 0 0 28px 6px rgba(255,255,255,0.5), 0 0 8px 2px rgba(255,255,255,0.9); }
+}
+
+@keyframes oracle-drift-1 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  33%      { transform: translateY(-3px) translateX(1px); }
+  66%      { transform: translateY(2px) translateX(-1px); }
+}
+@keyframes oracle-drift-2 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  33%      { transform: translateY(3px) translateX(-1px); }
+  66%      { transform: translateY(-2px) translateX(1px); }
+}
+@keyframes oracle-drift-3 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  33%      { transform: translateY(-2px) translateX(-1px); }
+  66%      { transform: translateY(3px) translateX(1px); }
+}
+
+.oracle-bar-idle {
+  background: white;
+  animation: oracle-idle-pulse 2.4s ease-in-out infinite;
+}
+.oracle-bar-idle:nth-child(1) { animation-delay: 0s;    animation-name: oracle-idle-pulse, oracle-drift-1; animation-duration: 2.4s, 5s; }
+.oracle-bar-idle:nth-child(2) { animation-delay: 0.4s;  animation-name: oracle-idle-pulse, oracle-drift-2; animation-duration: 2.1s, 4.5s; }
+.oracle-bar-idle:nth-child(3) { animation-delay: 0.8s;  animation-name: oracle-idle-pulse, oracle-drift-3; animation-duration: 2.7s, 5.5s; }
+
+.oracle-bar-searching {
+  background: white;
+  animation: oracle-color-cycle 14s linear infinite, oracle-drift-1 4s ease-in-out infinite;
+}
+.oracle-bar-searching:nth-child(1) { animation-delay: 0s, 0s; }
+.oracle-bar-searching:nth-child(2) { animation-delay: -4.67s, 0s; }
+.oracle-bar-searching:nth-child(3) { animation-delay: -9.33s, 0s; }
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.cursor-blink { animation: blink 1s step-end infinite; }
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up { animation: fade-in-up 0.4s ease-out forwards; }
