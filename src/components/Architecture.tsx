@@ -54,7 +54,7 @@ const flow = [
 
 export default function Architecture() {
   return (
-    <section id="architecture" className="py-32 px-6 bg-[#141414]">
+    <section id="architecture" className="py-32 px-6 bg-[#130f28]">
       <div className="max-w-6xl mx-auto">
         <SectionHeader label="Architecture" title="Local-first meets cloud intelligence" />
 
@@ -63,7 +63,7 @@ export default function Architecture() {
           {layers.map((layer) => (
             <div
               key={layer.label}
-              className="rounded-2xl p-6 bg-[#0d0d0d] border border-white/8 hover:border-white/16 transition-colors"
+              className="rounded-2xl p-6 bg-[#0d0820] border border-white/8 hover:border-white/16 transition-colors"
             >
               <p
                 className="text-xs tracking-[0.3em] uppercase font-bold mb-4"
@@ -94,7 +94,7 @@ export default function Architecture() {
           <div className="flex flex-wrap items-center justify-center gap-2">
             {flow.map((step, i) => (
               <div key={step} className="flex items-center gap-2">
-                <span className="text-sm px-4 py-2 rounded-lg bg-[#0d0d0d] border border-white/8 text-[#bdbdbd]">
+                <span className="text-sm px-4 py-2 rounded-lg bg-[#0d0820] border border-white/8 text-[#bdbdbd]">
                   {step}
                 </span>
                 {i < flow.length - 1 && (

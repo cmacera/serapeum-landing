@@ -48,7 +48,7 @@ export default function Features() {
           {features.map((f) => (
             <div
               key={f.title}
-              className="relative rounded-2xl p-8 bg-[#141414] border border-white/8 hover:border-white/16 transition-colors overflow-hidden"
+              className="relative rounded-2xl p-8 bg-[#130f28] border border-white/8 hover:border-white/16 transition-colors overflow-hidden"
             >
               {/* Subtle corner glow */}
               <div

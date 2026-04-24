@@ -5,8 +5,8 @@
   --color-accent: #930df2;
   --color-accent-light: #b060ff;
   --color-cyan: #60c8ff;
-  --color-surface: #1e1e1e;
-  --color-surface2: #141414;
+  --color-surface: #1b1735;
+  --color-surface2: #130f28;
   --color-text: #ffffff;
   --color-text-muted: #bdbdbd;
   --color-badge-media: #1e88e5;
@@ -19,7 +19,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background-color: #0d0d0d;
+  background-color: #0d0820;
   color: #ffffff;
   font-family: "Space Grotesk", sans-serif;
   -webkit-font-smoothing: antialiased;
