@@ -110,7 +110,40 @@ In `.env.local` for local dev. In Vercel → Settings → Environment Variables 
 ## MCP servers available
 
 - `mcp__github__*` — GitHub (PRs, issues, branches, releases)
-- `mcp__claude_ai_Linear__*` — Linear (tickets: team DEVELOPMENT, project Serapeum APP, prefix DEV)
+- `mcp__claude_ai_Linear__*` — Linear (tickets: team DEVELOPMENT, project Serapeum Landing, prefix DEV)
+
+---
+
+## Linear + GitHub workflow
+
+**Linear team:** DEVELOPMENT · **Project:** Serapeum Landing · **Identifier prefix:** `DEV`
+
+### Ticket state automation
+
+- **Move to `In Progress` automatically** when starting work on a ticket — no need to ask.
+- All other state transitions (`In Review`, `Done`, `Canceled`, etc.) require an explicit request.
+
+### Starting a new feature
+
+1. Create or pick a ticket in Linear (MCP or UI): assign to self, project = Serapeum Landing.
+2. **Move ticket to `In Progress`** (automatic — no need to ask).
+3. Create a branch: `git checkout -b feat/<short-description>`.
+4. Implement, commit with conventional commits.
+5. Create the PR: title must start with `[DEV-XX]`. Body should include `Closes DEV-XX`.
+6. Move ticket to `In Review` when the PR is open (explicit request required).
+
+### Available Linear states
+
+| State | Use when |
+|---|---|
+| Backlog | Not yet started |
+| Todo | Ready to pick up |
+| In Progress | Actively working |
+| In Review | PR open, awaiting review |
+| Done | PR merged |
+| Canceled / Duplicate | — |
+
+---
 
 ## Commit conventions
 
