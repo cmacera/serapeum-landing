@@ -99,7 +99,7 @@ export default function OracleDemo() {
   const isEmpty = messages.length === 0;
 
   return (
-    <section id="demo" className="py-32 px-6 bg-[#0d0d0d]">
+    <section id="demo" className="py-32 px-6 bg-[#0d0820]">
       <div className="max-w-3xl mx-auto">
         <SectionHeader label="Live Demo" title="Ask The Oracle anything" />
         <p className="text-center text-sm text-[#bdbdbd] mt-4 mb-12">
@@ -107,7 +107,7 @@ export default function OracleDemo() {
         </p>
 
         <div
-          className="rounded-2xl border border-white/10 bg-[#141414] overflow-hidden"
+          className="rounded-2xl border border-white/10 bg-[#130f28] overflow-hidden"
           style={{ boxShadow: "0 0 60px 0 rgba(147,13,242,0.08)" }}
         >
           {/* Oracle bars header */}
@@ -125,7 +125,7 @@ export default function OracleDemo() {
                     <button
                       key={s}
                       onClick={() => send(s)}
-                      className="w-full text-left text-sm px-4 py-3 rounded-xl bg-[#1e1e1e] border border-white/8 text-[#bdbdbd] hover:border-[#930df2]/50 hover:text-white transition-all"
+                      className="w-full text-left text-sm px-4 py-3 rounded-xl bg-[#1b1735] border border-white/8 text-[#bdbdbd] hover:border-[#930df2]/50 hover:text-white transition-all"
                     >
                       {s}
                     </button>
@@ -145,7 +145,7 @@ export default function OracleDemo() {
                   </div>
                 ) : (
                   <div className="max-w-[90%] space-y-3">
-                    <div className="rounded-2xl rounded-bl-sm px-4 py-3 text-sm text-[#bdbdbd] bg-[#1e1e1e] border border-white/8">
+                    <div className="rounded-2xl rounded-bl-sm px-4 py-3 text-sm text-[#bdbdbd] bg-[#1b1735] border border-white/8">
                       {msg.text}
                     </div>
                     {msg.items && msg.items.length > 0 && (
@@ -162,7 +162,7 @@ export default function OracleDemo() {
 
             {searching && (
               <div className="flex justify-start">
-                <div className="flex items-center gap-1.5 px-4 py-3 rounded-2xl rounded-bl-sm bg-[#1e1e1e] border border-white/8">
+                <div className="flex items-center gap-1.5 px-4 py-3 rounded-2xl rounded-bl-sm bg-[#1b1735] border border-white/8">
                   {[0, 1, 2].map((i) => (
                     <span
                       key={i}
@@ -178,7 +178,7 @@ export default function OracleDemo() {
 
           {/* Input */}
           <div className="px-4 py-4 border-t border-white/5">
-            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#1e1e1e] border border-white/10 focus-within:border-[#930df2]/60 transition-colors">
+            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#1b1735] border border-white/10 focus-within:border-[#930df2]/60 transition-colors">
               <input
                 className="flex-1 bg-transparent text-sm text-white placeholder-[#bdbdbd]/40 outline-none"
                 placeholder="Ask for recommendations…"
@@ -207,7 +207,7 @@ function ResultCard({ item }: { item: ResultItem }) {
   const label = item.kind ? BADGE_LABELS[item.kind] : "";
 
   return (
-    <div className="flex gap-3 px-3 py-3 rounded-xl bg-[#1e1e1e] border border-white/8 fade-in-up">
+    <div className="flex gap-3 px-3 py-3 rounded-xl bg-[#1b1735] border border-white/8 fade-in-up">
       {item.posterUrl && (
         // eslint-disable-next-line @next/next/no-img-element
         <img

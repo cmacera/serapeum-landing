@@ -111,4 +111,3 @@ In `.env.local` for local dev. In Vercel → Settings → Environment Variables 
 
 **Project:** Serapeum Landing
 
-@/Users/car/.claude/linear-workflow.md

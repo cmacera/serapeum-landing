@@ -59,7 +59,7 @@ export default function TechStack() {
               </p>
               <ul className="space-y-3">
                 {group.items.map((item) => (
-                  <li key={item.name} className="rounded-xl p-4 bg-[#141414] border border-white/8 hover:border-white/16 transition-colors">
+                  <li key={item.name} className="rounded-xl p-4 bg-[#130f28] border border-white/8 hover:border-white/16 transition-colors">
                     <p className="text-sm font-semibold text-white mb-1">{item.name}</p>
                     <p className="text-xs text-[#bdbdbd]/70 leading-relaxed">{item.role}</p>
                   </li>

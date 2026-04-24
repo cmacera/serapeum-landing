@@ -31,7 +31,7 @@ const platforms = [
 
 export default function Download() {
   return (
-    <section id="download" className="py-32 px-6 bg-[#141414]">
+    <section id="download" className="py-32 px-6 bg-[#130f28]">
       <div className="max-w-4xl mx-auto">
         <SectionHeader label="Download" title="Run Serapeum on your device" />
 
@@ -39,7 +39,7 @@ export default function Download() {
           {platforms.map((p) => (
             <div
               key={p.name}
-              className={`rounded-2xl p-8 flex flex-col bg-[#0d0d0d] border transition-colors ${
+              className={`rounded-2xl p-8 flex flex-col bg-[#0d0820] border transition-colors ${
                 p.available ? "border-white/10 hover:border-[#930df2]/40" : "border-white/5 opacity-50"
               }`}
             >
