@@ -72,6 +72,42 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Upstream error" }, { status: upstream.status });
   }
 
-  const data = await upstream.json();
-  return NextResponse.json(data);
+  const raw = await upstream.json();
+  return NextResponse.json(normalise(raw));
+}
+
+type Kind = "media" | "book" | "game";
+
+function parseYear(date: unknown): number | undefined {
+  if (typeof date === "string" && date.length >= 4) {
+    const y = parseInt(date.slice(0, 4), 10);
+    return isNaN(y) ? undefined : y;
+  }
+}
+
+function normaliseItem(raw: Record<string, unknown>, kind: Kind) {
+  const imageLinks = raw.imageLinks as Record<string, string> | undefined;
+  return {
+    id:       raw.id,
+    title:    (raw.title ?? raw.name ?? "") as string,
+    year:     parseYear(raw.release_date ?? raw.publishedDate ?? raw.released),
+    overview: (raw.overview ?? raw.description ?? raw.summary ?? "") as string,
+    posterUrl: (raw.poster_path ?? imageLinks?.thumbnail ?? null) as string | null,
+    kind,
+  };
+}
+
+function normalise(raw: Record<string, unknown>) {
+  const searchData = (raw?.data ?? {}) as Record<string, unknown>;
+  const featured = searchData.featured as { type: Kind; item: Record<string, unknown> } | undefined;
+
+  return {
+    message: (raw.message ?? "") as string,
+    data: {
+      featured: featured ? normaliseItem(featured.item, featured.type) : undefined,
+      media:  ((searchData.media  as unknown[]) ?? []).map((m) => normaliseItem(m as Record<string, unknown>, "media")),
+      books:  ((searchData.books  as unknown[]) ?? []).map((b) => normaliseItem(b as Record<string, unknown>, "book")),
+      games:  ((searchData.games  as unknown[]) ?? []).map((g) => normaliseItem(g as Record<string, unknown>, "game")),
+    },
+  };
 }
