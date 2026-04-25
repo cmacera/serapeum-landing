@@ -33,3 +33,4 @@ next-env.d.ts
 # Claude local configuration
 .claude/
 CLAUDE.local.md
+tasks/
