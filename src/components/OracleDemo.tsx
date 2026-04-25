@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import OracleBars from "./OracleBars";
 import { SectionHeader } from "./Features";
+import { useLanguage } from "./Providers";
 
 interface ResultItem {
   id?: string;
@@ -13,57 +14,24 @@ interface ResultItem {
   kind?: "media" | "book" | "game";
 }
 
-const ALL_SUGGESTIONS = [
-  "I'm in the mood for a dark psychological thriller",
-  "Best sci-fi novels of the last decade",
-  "Open-world RPGs with deep storytelling",
-  "90s films that shaped modern cinema",
-  "Animated series for adults with great writing",
-  "Books similar to Dune but more accessible",
-  "Horror games that rely on atmosphere, not jump scares",
-  "Crime dramas set in Scandinavia",
-  "Underrated RPGs from the early 2000s",
-  "Short novels you can read in a weekend",
-  "Strategy games with complex economies",
-  "Mind-bending films with unreliable narrators",
-  "Action-adventure games with rich lore",
-  "Literary fiction set in Latin America",
-  "Co-op games to play with a friend online",
-  "Classic films everyone should watch once",
-];
-
-const LOADING_MESSAGES = [
-  "Consulting the ancient scrolls…",
-  "Summoning knowledge from the depths…",
-  "Searching through endless catalogues…",
-  "Weaving through worlds and timelines…",
-  "Sifting through centuries of stories…",
-  "Awakening the Oracle…",
-  "Traversing the library…",
-  "Reading between the lines…",
-];
-
 const BADGE_COLORS: Record<string, string> = {
   media: "#1e88e5",
   book: "#00897b",
   game: "#ffb300",
 };
 
-const BADGE_LABELS: Record<string, string> = {
-  media: "Film / TV",
-  book: "Book",
-  game: "Game",
-};
-
 export default function OracleDemo() {
+  const { lang, t } = useLanguage();
   const [result, setResult] = useState<{ text: string; items: ResultItem[] } | null>(null);
   const [input, setInput] = useState("");
   const [searching, setSearching] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [suggestions] = useState(() =>
-    [...ALL_SUGGESTIONS].sort(() => Math.random() - 0.5).slice(0, 4)
+  const [loadingMsg, setLoadingMsg] = useState<string>(t.oracle.loadingMessages[0]);
+
+  const suggestions = useMemo(
+    () => [...t.oracle.suggestions].sort(() => Math.random() - 0.5).slice(0, 4),
+    [t.oracle.suggestions]
   );
-  const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
 
   async function send(query: string) {
     if (!query.trim() || searching) return;
@@ -74,7 +42,7 @@ export default function OracleDemo() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query, language: lang }),
       });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -88,9 +56,9 @@ export default function OracleDemo() {
         items.push(...media, ...books, ...games);
       }
 
-      setResult({ text: json.message ?? "Here are some suggestions.", items });
+      setResult({ text: json.message ?? t.oracle.resultsTitle, items });
     } catch {
-      setResult({ text: "The Oracle is temporarily unavailable. Please try again shortly.", items: [] });
+      setResult({ text: t.oracle.error, items: [] });
     } finally {
       setSearching(false);
       setShowModal(true);
@@ -103,12 +71,13 @@ export default function OracleDemo() {
 
   useEffect(() => {
     if (!searching) return;
-    setLoadingMsg(LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)]);
+    const msgs = t.oracle.loadingMessages;
+    setLoadingMsg(msgs[Math.floor(Math.random() * msgs.length)]);
     const id = setInterval(() => {
-      setLoadingMsg(LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)]);
+      setLoadingMsg(msgs[Math.floor(Math.random() * msgs.length)]);
     }, 3000);
     return () => clearInterval(id);
-  }, [searching]);
+  }, [searching, t.oracle.loadingMessages]);
 
   useEffect(() => {
     document.body.style.overflow = showModal ? "hidden" : "";
@@ -123,9 +92,9 @@ export default function OracleDemo() {
   return (
     <section id="demo" className="py-32 px-6 bg-[#0d0820]">
       <div className="max-w-3xl mx-auto">
-        <SectionHeader label="Live Demo" title="Ask The Oracle anything" />
+        <SectionHeader label={t.oracle.heading} title={t.oracle.title} />
         <p className="text-center text-sm text-[#bdbdbd] mt-4 mb-12">
-          Search books, films, series, and games with natural language — no login required.
+          {t.oracle.sub}
         </p>
 
         {/* Compact card */}
@@ -160,7 +129,7 @@ export default function OracleDemo() {
             <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#1b1735] border border-white/10 focus-within:border-[#930df2]/60 transition-colors">
               <input
                 className="flex-1 bg-transparent text-sm text-white placeholder-[#bdbdbd]/40 outline-none"
-                placeholder="Ask for recommendations…"
+                placeholder={t.oracle.placeholder}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKey}
@@ -220,8 +189,9 @@ export default function OracleDemo() {
 }
 
 function ResultCard({ item }: { item: ResultItem }) {
+  const { t } = useLanguage();
   const color = item.kind ? BADGE_COLORS[item.kind] : "#bdbdbd";
-  const label = item.kind ? BADGE_LABELS[item.kind] : "";
+  const label = item.kind ? t.oracle.badges[item.kind] : "";
 
   return (
     <div className="flex flex-col rounded-xl bg-[#1b1735] border border-white/8 overflow-hidden fade-in-up">

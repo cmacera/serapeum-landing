@@ -1,59 +1,24 @@
-import { SectionHeader } from "./Features";
+"use client";
 
-const stack = [
-  {
-    category: "Client",
-    color: "#930df2",
-    items: [
-      { name: "Flutter", role: "Multi-platform UI framework (macOS, Android, iOS)" },
-      { name: "Riverpod", role: "Reactive state management with code generation" },
-      { name: "Realm", role: "Offline-first embedded database with live queries" },
-      { name: "GoRouter", role: "Declarative URL-based navigation" },
-    ],
-  },
-  {
-    category: "API & AI",
-    color: "#1e88e5",
-    items: [
-      { name: "Genkit", role: "AI flow orchestration and multi-step pipelines" },
-      { name: "Node.js 22", role: "TypeScript-strict API runtime on Vercel serverless" },
-      { name: "Zod", role: "Runtime schema validation — single source of truth for types" },
-      { name: "Langfuse", role: "AI observability and response quality tracking" },
-    ],
-  },
-  {
-    category: "Cloud",
-    color: "#00897b",
-    items: [
-      { name: "Supabase", role: "Auth (JWT tokens) + Storage (library backups)" },
-      { name: "Vercel", role: "Serverless API deployment with edge network" },
-      { name: "Sentry", role: "Crash reporting across Flutter and Node.js" },
-    ],
-  },
-  {
-    category: "External APIs",
-    color: "#ffb300",
-    items: [
-      { name: "TMDB", role: "Movies and TV shows catalogue" },
-      { name: "Google Books", role: "Books catalogue and metadata" },
-      { name: "IGDB", role: "Video games catalogue (Twitch)" },
-      { name: "Tavily", role: "Web search for entity extraction" },
-    ],
-  },
-];
+import { SectionHeader } from "./Features";
+import { useLanguage } from "./Providers";
+
+const CATEGORY_COLORS = ["#930df2", "#1e88e5", "#00897b", "#ffb300"];
 
 export default function TechStack() {
+  const { t } = useLanguage();
+
   return (
     <section id="stack" className="py-32 px-6">
       <div className="max-w-6xl mx-auto">
-        <SectionHeader label="Tech Stack" title="Built on modern, production-grade tooling" />
+        <SectionHeader label={t.techStack.heading} title={t.techStack.sub} />
 
         <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stack.map((group) => (
+          {t.techStack.categories.map((group, i) => (
             <div key={group.category}>
               <p
                 className="text-xs tracking-[0.3em] uppercase font-bold mb-4"
-                style={{ color: group.color }}
+                style={{ color: CATEGORY_COLORS[i] }}
               >
                 {group.category}
               </p>

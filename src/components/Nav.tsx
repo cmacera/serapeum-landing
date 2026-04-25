@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useLanguage } from "./Providers";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const { lang, t, toggle } = useLanguage();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -22,21 +24,33 @@ export default function Nav() {
       </span>
 
       <div className="hidden md:flex items-center gap-8 text-sm text-[#bdbdbd]">
-        <a href="#features" className="hover:text-white transition-colors">Features</a>
-        <a href="#demo" className="hover:text-white transition-colors">Try Oracle</a>
-        <a href="#architecture" className="hover:text-white transition-colors">Architecture</a>
-        <a href="#download" className="hover:text-white transition-colors">Download</a>
+        <a href="#features" className="hover:text-white transition-colors">{t.nav.features}</a>
+        <a href="#demo" className="hover:text-white transition-colors">{t.nav.tryOracle}</a>
+        <a href="#architecture" className="hover:text-white transition-colors">{t.nav.architecture}</a>
+        <a href="#download" className="hover:text-white transition-colors">{t.nav.download}</a>
       </div>
 
-      <a
-        href="https://github.com/cmacera/serapeum-app"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-2 text-sm text-[#bdbdbd] hover:text-white transition-colors"
-      >
-        <GitHubIcon />
-        <span className="hidden sm:inline">GitHub</span>
-      </a>
+      <div className="flex items-center gap-4">
+        <button
+          onClick={toggle}
+          className="flex items-center border border-white/20 rounded-full px-3 py-1 text-sm hover:border-white/40 transition-colors"
+          aria-label="Toggle language"
+        >
+          <span className={lang === "es" ? "text-[#930df2] font-semibold" : "text-white/40"}>ES</span>
+          <span className="text-white/20 mx-1.5">|</span>
+          <span className={lang === "en" ? "text-[#930df2] font-semibold" : "text-white/40"}>EN</span>
+        </button>
+
+        <a
+          href="https://github.com/cmacera/serapeum-app"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 text-sm text-[#bdbdbd] hover:text-white transition-colors"
+        >
+          <GitHubIcon />
+          <span className="hidden sm:inline">GitHub</span>
+        </a>
+      </div>
     </nav>
   );
 }

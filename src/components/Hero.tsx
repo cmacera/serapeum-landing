@@ -2,10 +2,13 @@
 
 import dynamic from "next/dynamic";
 import OracleBars from "./OracleBars";
+import { useLanguage } from "./Providers";
 
 const ParticleBackground = dynamic(() => import("./ParticleBackground"), { ssr: false });
 
 export default function Hero() {
+  const { t } = useLanguage();
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 overflow-hidden">
       <ParticleBackground />
@@ -32,7 +35,7 @@ export default function Hero() {
       {/* Text content */}
       <div className="relative z-10 text-center max-w-3xl">
         <p className="text-xs tracking-[0.4em] uppercase text-[#bdbdbd] mb-4">
-          AI-Powered Knowledge Library
+          {t.hero.eyebrow}
         </p>
 
         <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6">
@@ -40,8 +43,7 @@ export default function Hero() {
         </h1>
 
         <p className="text-base md:text-lg text-[#bdbdbd] max-w-xl mx-auto leading-relaxed mb-10">
-          A hybrid AI client that combines an offline-first personal library with cloud-powered
-          discovery. Search books, movies, TV shows, and video games through natural language.
+          {t.hero.tagline}
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -50,13 +52,13 @@ export default function Hero() {
             className="px-8 py-3 rounded-lg font-semibold text-sm text-white transition-all"
             style={{ background: "linear-gradient(135deg, #930df2, #b060ff)" }}
           >
-            Try The Oracle
+            {t.hero.ctaOracle}
           </a>
           <a
             href="#download"
             className="px-8 py-3 rounded-lg border border-white/20 text-[#bdbdbd] font-semibold text-sm hover:border-white/40 hover:text-white transition-all"
           >
-            Download App
+            {t.hero.ctaDownload}
           </a>
         </div>
       </div>

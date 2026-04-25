@@ -40,6 +40,7 @@ async function getAccessToken(): Promise<string> {
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
   const query = body?.query;
+  const language: string = body?.language ?? "es";
 
   if (!query || typeof query !== "string") {
     return NextResponse.json({ error: "query required" }, { status: 400 });
@@ -63,7 +64,7 @@ export async function POST(req: NextRequest) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ data: { query, language: "en" } }),
+    body: JSON.stringify({ data: { query, language } }),
   });
 
   if (!upstream.ok) {
