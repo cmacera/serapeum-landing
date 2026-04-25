@@ -72,6 +72,53 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Upstream error" }, { status: upstream.status });
   }
 
-  const data = await upstream.json();
-  return NextResponse.json(data);
+  const raw = await upstream.json();
+  return NextResponse.json(normalise(raw));
+}
+
+type Kind = "media" | "book" | "game";
+
+function parseYear(date: unknown): number | undefined {
+  if (typeof date === "string" && date.length >= 4) {
+    const y = parseInt(date.slice(0, 4), 10);
+    return isNaN(y) ? undefined : y;
+  }
+}
+
+function normalisePoster(raw: Record<string, unknown>): string | null {
+  const posterPath = raw.poster_path as string | undefined;
+  const coverUrl = raw.cover_url as string | undefined;
+  const thumbnail = (raw.imageLinks as Record<string, string> | undefined)?.thumbnail;
+  if (posterPath) return `https://image.tmdb.org/t/p/w300${posterPath}`;
+  if (coverUrl) return coverUrl;
+  if (thumbnail) return thumbnail;
+  return null;
+}
+
+function normaliseItem(raw: Record<string, unknown>, kind: Kind) {
+  return {
+    id:       raw.id,
+    title:    (raw.title ?? raw.name ?? "") as string,
+    year:     parseYear(raw.release_date ?? raw.publishedDate ?? raw.released),
+    overview: (raw.overview ?? raw.description ?? raw.summary ?? "") as string,
+    posterUrl: normalisePoster(raw),
+    kind,
+  };
+}
+
+function normalise(raw: Record<string, unknown>) {
+  // Upstream wraps the payload in a `result` key
+  const envelope = (raw?.result ?? raw) as Record<string, unknown>;
+  const searchData = (envelope?.data ?? {}) as Record<string, unknown>;
+  const featured = searchData.featured as { type: Kind; item: Record<string, unknown> } | undefined;
+
+  return {
+    message: (envelope.message ?? "") as string,
+    data: {
+      featured: featured ? normaliseItem(featured.item, featured.type) : undefined,
+      media:  ((searchData.media  as unknown[]) ?? []).map((m) => normaliseItem(m as Record<string, unknown>, "media")),
+      books:  ((searchData.books  as unknown[]) ?? []).map((b) => normaliseItem(b as Record<string, unknown>, "book")),
+      games:  ((searchData.games  as unknown[]) ?? []).map((g) => normaliseItem(g as Record<string, unknown>, "game")),
+    },
+  };
 }
