@@ -85,24 +85,35 @@ function parseYear(date: unknown): number | undefined {
   }
 }
 
+function normalisePoster(raw: Record<string, unknown>): string | null {
+  const posterPath = raw.poster_path as string | undefined;
+  const coverUrl = raw.cover_url as string | undefined;
+  const thumbnail = (raw.imageLinks as Record<string, string> | undefined)?.thumbnail;
+  if (posterPath) return `https://image.tmdb.org/t/p/w300${posterPath}`;
+  if (coverUrl) return coverUrl;
+  if (thumbnail) return thumbnail;
+  return null;
+}
+
 function normaliseItem(raw: Record<string, unknown>, kind: Kind) {
-  const imageLinks = raw.imageLinks as Record<string, string> | undefined;
   return {
     id:       raw.id,
     title:    (raw.title ?? raw.name ?? "") as string,
     year:     parseYear(raw.release_date ?? raw.publishedDate ?? raw.released),
     overview: (raw.overview ?? raw.description ?? raw.summary ?? "") as string,
-    posterUrl: (raw.poster_path ?? imageLinks?.thumbnail ?? null) as string | null,
+    posterUrl: normalisePoster(raw),
     kind,
   };
 }
 
 function normalise(raw: Record<string, unknown>) {
-  const searchData = (raw?.data ?? {}) as Record<string, unknown>;
+  // Upstream wraps the payload in a `result` key
+  const envelope = (raw?.result ?? raw) as Record<string, unknown>;
+  const searchData = (envelope?.data ?? {}) as Record<string, unknown>;
   const featured = searchData.featured as { type: Kind; item: Record<string, unknown> } | undefined;
 
   return {
-    message: (raw.message ?? "") as string,
+    message: (envelope.message ?? "") as string,
     data: {
       featured: featured ? normaliseItem(featured.item, featured.type) : undefined,
       media:  ((searchData.media  as unknown[]) ?? []).map((m) => normaliseItem(m as Record<string, unknown>, "media")),

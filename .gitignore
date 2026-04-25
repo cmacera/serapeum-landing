@@ -29,4 +29,7 @@ yarn-debug.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude local configuration
+.claude/
 CLAUDE.local.md
