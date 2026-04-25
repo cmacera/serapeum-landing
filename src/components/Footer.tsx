@@ -1,4 +1,9 @@
+"use client";
+
+import { useLanguage } from "./Providers";
+
 export default function Footer() {
+  const { t } = useLanguage();
   const year = new Date().getFullYear();
 
   return (
@@ -9,7 +14,7 @@ export default function Footer() {
             Serapeum
           </p>
           <p className="text-xs text-[#bdbdbd]/40">
-            Master&apos;s Final Project · Carlos Martín · {year}
+            {t.footer.tagline} · {year}
           </p>
         </div>
 
@@ -20,7 +25,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="hover:text-[#bdbdbd] transition-colors"
           >
-            App Repo
+            {t.footer.appRepo}
           </a>
           <span>·</span>
           <a
@@ -29,7 +34,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="hover:text-[#bdbdbd] transition-colors"
           >
-            API Repo
+            {t.footer.apiRepo}
           </a>
           <span>·</span>
           <a
@@ -38,7 +43,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="hover:text-[#bdbdbd] transition-colors"
           >
-            API Status
+            {t.footer.apiStatus}
           </a>
         </div>
       </div>
