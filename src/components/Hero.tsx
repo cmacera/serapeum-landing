@@ -38,7 +38,7 @@ export default function Hero() {
           {t.hero.eyebrow}
         </p>
 
-        <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6">
+        <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6 uppercase tracking-widest">
           Serapeum
         </h1>
 

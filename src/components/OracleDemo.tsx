@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import OracleBars from "./OracleBars";
 import { SectionHeader } from "./Features";
 import { useLanguage } from "./Providers";
@@ -28,10 +28,11 @@ export default function OracleDemo() {
   const [showModal, setShowModal] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState<string>(t.oracle.loadingMessages[0]);
 
-  const suggestions = useMemo(
-    () => [...t.oracle.suggestions].sort(() => Math.random() - 0.5).slice(0, 4),
-    [t.oracle.suggestions]
-  );
+  const [suggestions, setSuggestions] = useState(() => t.oracle.suggestions.slice(0, 4));
+
+  useEffect(() => {
+    setSuggestions([...t.oracle.suggestions].sort(() => Math.random() - 0.5).slice(0, 4));
+  }, [t.oracle.suggestions]);
 
   async function send(query: string) {
     if (!query.trim() || searching) return;

@@ -66,25 +66,6 @@ export default function Download() {
           })}
         </div>
 
-        {/* Source code links */}
-        <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="https://github.com/cmacera/serapeum-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-3 px-8 py-3 rounded-xl border border-white/10 text-[#bdbdbd] text-sm hover:border-white/25 hover:text-white transition-all"
-          >
-            {t.download.flutterRepo}
-          </a>
-          <a
-            href="https://github.com/cmacera/serapeum-api"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-3 px-8 py-3 rounded-xl border border-white/10 text-[#bdbdbd] text-sm hover:border-white/25 hover:text-white transition-all"
-          >
-            {t.download.apiRepo}
-          </a>
-        </div>
       </div>
     </section>
   );
