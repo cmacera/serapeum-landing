@@ -13,6 +13,38 @@ export const translations = {
       ctaOracle: "Probar el Oráculo",
       ctaDownload: "Descargar App",
     },
+    context: {
+      heading: "¿Por qué SERAPEUM?",
+      sub: "Tu biblioteca personal merece un hogar unificado",
+      problems: [
+        {
+          title: "Todo está fragmentado",
+          description: "Libros en Goodreads, películas en Letterboxd, series en otro sitio, juegos en otro. Sin un lugar único para tu colección cultural.",
+        },
+        {
+          title: "Sin IA real",
+          description: "Los buscadores por género o palabras clave no entienden intenciones. 'Quiero algo oscuro pero esperanzador' no funciona en ningún catálogo existente.",
+        },
+        {
+          title: "Dependiente de internet",
+          description: "Tus listas, notas y estados de lectura dejan de estar disponibles en cuanto pierdes conexión. Tu biblioteca no debería depender de un servidor.",
+        },
+      ],
+      solutions: [
+        {
+          title: "Una sola app, todo tu universo",
+          description: "Serapeum unifica libros, películas, series y videojuegos en una biblioteca personal única, accesible sin conexión.",
+        },
+        {
+          title: "El Oráculo entiende el lenguaje natural",
+          description: "Busca con tus propias palabras. El Oráculo analiza la intención, consulta múltiples catálogos en paralelo y sintetiza una respuesta curada.",
+        },
+        {
+          title: "Local-first, nube opcional",
+          description: "Tus datos viven en el dispositivo. La nube es una copia de seguridad privada bajo tu control, no un requisito para usar la app.",
+        },
+      ],
+    },
     features: {
       heading: "Características",
       sub: "Los tres pilares de la gestión del conocimiento",
@@ -93,6 +125,12 @@ export const translations = {
       heading: "Arquitectura",
       sub: "Local-first con inteligencia en la nube",
       pipelineTitle: "Pipeline del Oráculo",
+      branchLabels: {
+        outOfScope: "Fuera de scope",
+        discovery: "Descubrimiento",
+        specific: "Específica",
+        factual: "Factual",
+      },
       layers: [
         {
           label: "Cliente",
@@ -131,7 +169,44 @@ export const translations = {
           ],
         },
       ],
-      flow: ["Consulta", "routerPrompt", "extractorPrompt", "Catalog Tools", "synthesizerPrompt", "Respuesta"],
+      pipelineSteps: [
+        {
+          name: "Consulta",
+          description: "La pregunta del usuario en lenguaje natural, sin restricciones de palabras clave ni filtros.",
+        },
+        {
+          name: "Router prompt",
+          description: "Clasifica la query según el contenido en cuatro categorías que siguen diferentes rutas. Produce una query normalizada o activa el guardrail si la consulta está fuera de scope.",
+        },
+        {
+          name: "Tavily Search",
+          description: "Búsqueda web en tiempo real. Recupera artículos y listas actualizadas para enriquecer las consultas de descubrimiento.",
+        },
+        {
+          name: "Extractor prompt",
+          description: "Lee el texto de Tavily y extrae títulos concretos: «Baldur's Gate 3», «Lies of P», «Armored Core VI»…",
+        },
+        {
+          name: "Catalog APIs",
+          description: "Consulta TMDB, IGDB y Google Books en paralelo. La categoría del router decide qué APIs activar; en descubrimiento se lanza una búsqueda por cada título extraído.",
+        },
+        {
+          name: "Find best match",
+          description: "Fuzzy matching del título contra los resultados. Ranking por popularidad (TMDB), rating agregado (IGDB) o valoración media (Books). Promueve el mejor resultado a «featured» y deduplica.",
+        },
+        {
+          name: "Detail fetch",
+          description: "Obtiene datos ricos de la entidad: número de temporadas, presupuesto, recaudación, plataformas… Se añaden como contexto extra al sintetizador.",
+        },
+        {
+          name: "Synthesizer prompt",
+          description: "Recibe la query original, el contexto web de Tavily y los resultados de las APIs con el featured destacado. Genera la respuesta final en lenguaje natural, en el idioma del usuario.",
+        },
+        {
+          name: "Respuesta",
+          description: "Resultado curado devuelto al cliente: texto explicativo + colección de ítems enriquecidos con metadatos.",
+        },
+      ],
     },
     techStack: {
       heading: "Stack Tecnológico",
@@ -173,6 +248,26 @@ export const translations = {
           ],
         },
       ],
+    },
+    resources: {
+      heading: "Código abierto",
+      sub: "Repositorios del proyecto",
+      items: [
+        {
+          name: "App Flutter",
+          description: "Cliente multiplataforma — macOS, Android, iOS",
+          url: "https://github.com/cmacera/serapeum-app",
+        },
+        {
+          name: "API Genkit",
+          description: "Orquestador IA con Node.js y TypeScript",
+          url: "https://github.com/cmacera/serapeum-api",
+        },
+      ],
+    },
+    screenshots: {
+      heading: "La App en Acción",
+      sub: "Diseñada para cada plataforma",
     },
     download: {
       heading: "Descargar",
@@ -222,6 +317,38 @@ export const translations = {
         "A hybrid AI client that combines an offline-first personal library with cloud-powered discovery. Search books, movies, TV shows, and video games through natural language.",
       ctaOracle: "Try The Oracle",
       ctaDownload: "Download App",
+    },
+    context: {
+      heading: "Why SERAPEUM?",
+      sub: "Your personal library deserves a unified home",
+      problems: [
+        {
+          title: "Everything is fragmented",
+          description: "Books on Goodreads, films on Letterboxd, TV elsewhere, games somewhere else. No single place for your cultural collection.",
+        },
+        {
+          title: "No real AI",
+          description: "Genre or keyword search doesn't understand intent. 'Something dark but hopeful' doesn't work in any existing catalogue.",
+        },
+        {
+          title: "Always needs internet",
+          description: "Your lists, notes and reading progress disappear when you lose connection. Your library shouldn't depend on a server.",
+        },
+      ],
+      solutions: [
+        {
+          title: "One app, your entire universe",
+          description: "Serapeum unifies books, films, series and video games into a single personal library, available offline.",
+        },
+        {
+          title: "The Oracle understands natural language",
+          description: "Search with your own words. The Oracle reads intent, queries multiple catalogues in parallel and synthesises a curated response.",
+        },
+        {
+          title: "Local-first, optional cloud",
+          description: "Your data lives on your device. The cloud is a private backup under your control — not a requirement to use the app.",
+        },
+      ],
     },
     features: {
       heading: "Core Features",
@@ -291,6 +418,12 @@ export const translations = {
       heading: "Architecture",
       sub: "Local-first meets cloud intelligence",
       pipelineTitle: "Oracle Pipeline",
+      branchLabels: {
+        outOfScope: "Out of scope",
+        discovery: "Discovery",
+        specific: "Specific",
+        factual: "Factual",
+      },
       layers: [
         {
           label: "Client",
@@ -329,7 +462,44 @@ export const translations = {
           ],
         },
       ],
-      flow: ["User query", "routerPrompt", "extractorPrompt", "Catalog Tools", "synthesizerPrompt", "Response"],
+      pipelineSteps: [
+        {
+          name: "Query",
+          description: "The user's question in natural language, with no keyword or filter constraints.",
+        },
+        {
+          name: "Router prompt",
+          description: "Classifies the query by content into four categories that follow different routes. Produces a normalised query or triggers the guardrail if the query is out of scope.",
+        },
+        {
+          name: "Tavily Search",
+          description: "Real-time web search. Retrieves current articles and lists to enrich discovery queries.",
+        },
+        {
+          name: "Extractor prompt",
+          description: "Reads Tavily's text and extracts concrete titles: \"Baldur's Gate 3\", \"Lies of P\", \"Armored Core VI\"…",
+        },
+        {
+          name: "Catalog APIs",
+          description: "Queries TMDB, IGDB and Google Books in parallel. The router's category decides which APIs to activate; in discovery mode a search is launched for each extracted title.",
+        },
+        {
+          name: "Find best match",
+          description: "Fuzzy-matches the title against results. Ranks by popularity (TMDB), aggregated rating (IGDB) or average score (Books). Promotes the best result to \"featured\" and deduplicates.",
+        },
+        {
+          name: "Detail fetch",
+          description: "Retrieves rich entity data: number of seasons, budget, revenue, platforms… Added as extra context for the synthesiser.",
+        },
+        {
+          name: "Synthesizer prompt",
+          description: "Receives the original query, Tavily's web context and API results with the featured item highlighted. Generates the final natural-language response in the user's language.",
+        },
+        {
+          name: "Response",
+          description: "Curated result returned to the client: explanatory text + enriched item collection with metadata.",
+        },
+      ],
     },
     techStack: {
       heading: "Tech Stack",
@@ -371,6 +541,26 @@ export const translations = {
           ],
         },
       ],
+    },
+    resources: {
+      heading: "Open source",
+      sub: "Project repositories",
+      items: [
+        {
+          name: "Flutter App",
+          description: "Cross-platform client — macOS, Android, iOS",
+          url: "https://github.com/cmacera/serapeum-app",
+        },
+        {
+          name: "Genkit API",
+          description: "AI orchestrator with Node.js and TypeScript",
+          url: "https://github.com/cmacera/serapeum-api",
+        },
+      ],
+    },
+    screenshots: {
+      heading: "App in Action",
+      sub: "Designed for every platform",
     },
     download: {
       heading: "Download",

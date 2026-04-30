@@ -13,12 +13,12 @@ export default function Footer() {
           <p className="text-sm font-bold tracking-[0.15em] uppercase text-white mb-1">
             Serapeum
           </p>
-          <p className="text-xs text-[#bdbdbd]/40">
+          <p className="text-xs text-[#bdbdbd]/70">
             {t.footer.tagline} · {year}
           </p>
         </div>
 
-        <div className="flex items-center gap-6 text-xs text-[#bdbdbd]/40">
+        <div className="flex items-center gap-6 text-xs text-[#bdbdbd]/70">
           <a
             href="https://github.com/cmacera/serapeum-app"
             target="_blank"
